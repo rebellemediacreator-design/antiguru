@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Die Anti-Guru Challenge | 9 Tage zum ersten Kunden</title>
+    <meta name="description" content="9 Tage. Kein Mindset-Bullshit. Nur Verkaufen.">
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const SupercoachApp = () => {
+          const [currentDay, setCurrentDay] = useState(0);
+          const [formData, setFormData] = useState({});
+          const [checkboxes, setCheckboxes] = useState({});
+
+          useEffect(() => {
+            const savedData = localStorage.getItem('antiguru-data');
+            const savedCheckboxes = localStorage.getItem('antiguru-checkboxes');
+            if (savedData) setFormData(JSON.parse(savedData));
+            if (savedCheckboxes) setCheckboxes(JSON.parse(savedCheckboxes));
+          }, []);
+
+          useEffect(() => localStorage.setItem('antiguru-data', JSON.stringify(formData)), [formData]);
+          useEffect(() => localStorage.setItem('antiguru-checkboxes', JSON.stringify(checkboxes)), [checkboxes]);
+
+          const handleInputChange = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
+          const handleCheckboxChange = (field) => setCheckboxes(prev => ({ ...prev, [field]: !prev[field] }));
+
+          const exportData = () => {
+            const dataStr = JSON.stringify({ formData, checkboxes, exportDate: new Date().toISOString() }, null, 2);
+            const url = URL.createObjectURL(new Blob([dataStr], { type: 'application/json' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'antiguru-progress.json';
+            link.click();
+          };
+
+          const resetData = () => {
+            if (confirm('Alle Daten löschen?')) {
+              setFormData({});
+              setCheckboxes({});
+              localStorage.removeItem('antiguru-data');
+              localStorage.removeItem('antiguru-checkboxes');
+            }
+          };
+
+          const calculateProgress = () => {
+            const checkedCount = Object.values(checkboxes).filter(v => v).length;
+            return Math.round((checkedCount / 18) * 100);
+          };
+
+          const backgrounds = {
+            0: './images/day0.png', 1: './images/day1.png', 2: './images/day2.png',
+            3: './images/day3.png', 4: './images/day4.png', 5: './images/day5.png',
+            6: './images/day6.png', 7: './images/day7.png', 8: './images/day8.png', 9: './images/day0.png'
+          };
+
+          const T = ({ p, v, r=3 }) => <textarea placeholder={p} value={formData[v] || ''} onChange={(e) => handleInputChange(v, e.target.value)} rows={r} />;
+          const I = ({ p, v, c="" }) => <input type="text" placeholder={p} value={formData[v] || ''} onChange={(e) => handleInputChange(v, e.target.value)} className={c} />;
+          const C = ({ k, t }) => <label><input type="checkbox" checked={checkboxes[k] || false} onChange={() => handleCheckboxChange(k)} />{t}</label>;
+
+          const days = [
+            {title: "Start", content: <div className="day-content"><h1>Die Anti-Guru Challenge</h1><p className="subtitle">9 Tage. Kein Mindset-Bullshit. Nur Verkaufen.</p><div className="intro-box"><h2>Was du bekommst:</h2><ul><li>Glasklare Positionierung</li><li>Verkaufbares Angebot (250-750€)</li><li>7-Tage-Content-Plan</li><li>Mini-Funnel (Landing + CTA)</li><li>Sales-Skript</li><li>Skalierungs-Blueprint</li></ul><p className="emphasis">Keine Ausreden mehr.</p></div><button onClick={() => setCurrentDay(1)} className="cta-button">Challenge starten</button></div>},
+            {title: "Tag 1: Mindset", content: <div className="day-content"><h2>Mindset-Shift</h2><div className="task-block"><h3>Glaubenssätze identifizieren</h3><T p="Was hält dich zurück?" v="glaubenssaetze"/></div><div className="task-block"><h3>Glaubenssätze kippen</h3><T p="Neue Überzeugungen..." v="ueberzeugungen"/></div><div className="task-block"><h3>Mikro-Manifest</h3><T p="Mein Manifest..." v="manifest"/></div><div className="checkpoint"><C k="check1_1" t="Glaubenssätze identifiziert"/><C k="check1_2" t="Neue Überzeugungen"/><C k="check1_3" t="Manifest geschrieben"/></div></div>},
+            {title: "Tag 2: Story", content: <div className="day-content"><h2>Deine Story</h2><div className="task-block"><h4>1. Wo warst du?</h4><T p="Dein Tiefpunkt..." v="story_wo_warst_du"/></div><div className="task-block"><h4>2. Wendepunkt</h4><T p="Der Wendepunkt..." v="story_wendepunkt"/></div><div className="task-block"><h4>3. Wo jetzt?</h4><T p="Transformation..." v="story_wo_jetzt"/></div><div className="task-block"><h4>4. Gelernt</h4><T p="Lektion..." v="story_gelernt"/></div><div className="task-block"><h4>5. Wen hilfst du?</h4><T p="Zielgruppe..." v="story_wen_hilfst_du"/></div><div className="checkpoint"><C k="check2_1" t="Heldenreise formuliert"/><C k="check2_2" t="Zielgruppe beschrieben"/></div></div>},
+            {title: "Tag 3: Pitch", content: <div className="day-content"><h2>30-Sekunden-Pitch</h2><div className="formula-box">Ich helfe [Zielgruppe], [Problem], damit sie [Ergebnis].</div><div className="task-block"><h4>Version 1</h4><T p="Ich helfe..." v="pitch_v1"/></div><div className="task-block"><h4>Einzigartigkeit</h4><T p="Was macht dich anders?" v="pitch_unique"/></div><div className="task-block"><h4>Finale Version</h4><T p="Ich helfe..." v="pitch_final"/></div><div className="checkpoint"><C k="check3_1" t="Pitch formuliert"/><C k="check3_2" t="Einzigartigkeit definiert"/><C k="check3_3" t="Laut vorgelesen (3x)"/></div></div>},
+            {title: "Tag 4: Angebot", content: <div className="day-content"><h2>Einstiegsangebot</h2><div className="task-block"><h4>1. Problem</h4><T p="Welches Problem löst du?" v="angebot_problem"/></div><div className="task-block"><h4>2. Leistungen</h4><T p="Was bekommt der Kunde?" v="angebot_leistungen" r={4}/></div><div className="task-block"><h4>3. Ergebnis</h4><T p="Was wird messbar anders?" v="angebot_ergebnis"/></div><div className="task-block"><h4>4. Preis</h4><I p="€ 497" v="angebot_preis" c="price-input"/></div><div className="checkpoint"><C k="check4_1" t="Problem definiert"/><C k="check4_2" t="Leistungen aufgelistet"/><C k="check4_3" t="Ergebnis & Preis"/></div></div>},
+            {title: "Tag 5: Content", content: <div className="day-content"><h2>Content-Plan</h2>{[1,2,3,4,5,6,7].map(d => <div key={d} className="task-block"><h4>Tag {d}</h4><T p="Content-Idee..." v={`content_day${d}`} r={2}/></div>)}<div className="checkpoint"><C k="check5_1" t="7 Ideen notiert"/><C k="check5_2" t="Strategie klar"/></div></div>},
+            {title: "Tag 6: Funnel", content: <div className="day-content"><h2>Mini-Funnel</h2><div className="task-block"><h4>1. Headline</h4><I p="Was bekommt der Kunde?" v="funnel_headline"/></div><div className="task-block"><h4>2. Problem</h4><T p="Problem..." v="funnel_problem"/></div><div className="task-block"><h4>3. Lösung</h4><T p="Lösung..." v="funnel_solution"/></div><div className="task-block"><h4>4. CTA</h4><I p="Buche jetzt..." v="funnel_cta"/></div><div className="checkpoint"><C k="check6_1" t="Landing definiert"/><C k="check6_2" t="CTA formuliert"/></div></div>},
+            {title: "Tag 7: Sales", content: <div className="day-content"><h2>Erstgespräch</h2>{['Rapport','Problem','Vision','Angebot','Einwände'].map((ph,i) => <div key={i} className="task-block"><h4>Phase {i+1}: {ph}</h4><T p={ph+"..."} v={`sales_${ph.toLowerCase()}`} r={2}/></div>)}<div className="checkpoint"><C k="check7_1" t="Phasen verstanden"/><C k="check7_2" t="Fragen notiert"/><C k="check7_3" t="Einwände vorbereitet"/></div></div>},
+            {title: "Tag 8: Skalierung", content: <div className="day-content"><h2>Skalierung</h2><div className="task-block"><h4>Roadmap</h4><T p="Nächste Schritte..." v="scaling_roadmap" r={6}/></div><div className="checkpoint"><C k="check8_1" t="Stufen verstanden"/><C k="check8_2" t="Schritte definiert"/></div></div>},
+            {title: "Tag 9: Launch", content: <div className="day-content"><h2>Launch</h2><div className="checkpoint">{[1,2,3,4,5,6,7].map(n => <C key={n} k={`check9_${n}`} t={["Positionierung & Pitch","Angebot & Preis","Content-Plan","Landing Page","Sales-Skript","Roadmap","Erster Post"][n-1]}/>)}</div><div className="task-block"><h4>Verpflichtung</h4><I p="Unterschrift..." v="signature" c="signature-input"/></div><div className="completion-box"><h2>Challenge abgeschlossen! 🖤</h2><p>Jetzt: Umsetzen. Verkaufen.</p></div></div>}
+          ];
+
+          const progress = calculateProgress();
+
+          return (
+            <div className="app-wrapper" style={{backgroundImage: `url(${backgrounds[currentDay]})`}}>
+              <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Jost:wght@300;400;500;600;700&display=swap');
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                .app-wrapper { min-height: 100vh; background-size: cover; background-position: center; background-attachment: fixed; font-family: 'Jost', sans-serif; position: relative; transition: background-image 0.8s ease-in-out; }
+                .app-wrapper::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%); z-index: 0; pointer-events: none; }
+                .header { position: sticky; top: 0; z-index: 100; background: rgba(0, 0, 0, 0.95); border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding: 20px 0; backdrop-filter: blur(20px); }
+                .header-content { max-width: 720px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+                .brand { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; letter-spacing: 1px; color: #fff; }
+                .header-actions { display: flex; gap: 12px; }
+                .icon-button { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; padding: 8px 16px; font-size: 13px; cursor: pointer; transition: all 0.2s; font-family: 'Jost', sans-serif; font-weight: 500; }
+                .icon-button:hover { background: rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.5); transform: translateY(-1px); }
+                .progress-container { max-width: 720px; margin: 0 auto; padding: 20px 24px; position: relative; z-index: 1; }
+                .progress-label { font-size: 13px; color: #fff; margin-bottom: 8px; text-align: right; font-weight: 600; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+                .progress-bar { height: 6px; background: rgba(255, 255, 255, 0.2); border-radius: 3px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+                .progress-fill { height: 100%; background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.8) 100%); transition: width 0.4s ease; }
+                .navigation { background: rgba(0, 0, 0, 0.9); border-bottom: 1px solid rgba(255, 255, 255, 0.2); overflow-x: auto; backdrop-filter: blur(15px); position: sticky; top: 68px; z-index: 90; }
+                .nav-tabs { display: flex; max-width: 720px; margin: 0 auto; padding: 0 24px; }
+                .nav-tab { background: transparent; border: none; color: rgba(255, 255, 255, 0.6); padding: 16px 20px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s; border-bottom: 3px solid transparent; white-space: nowrap; font-family: 'Jost', sans-serif; }
+                .nav-tab:hover { color: rgba(255, 255, 255, 0.9); }
+                .nav-tab.active { color: #fff; border-bottom-color: #fff; font-weight: 600; }
+                .content { max-width: 720px; margin: 0 auto; padding: 60px 24px 100px; position: relative; z-index: 1; }
+                .day-content { background: rgba(0, 0, 0, 0.85); padding: 40px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); animation: fadeIn 0.6s ease; backdrop-filter: blur(10px); }
+                .day-content h1 { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: #fff; margin-bottom: 12px; line-height: 1.1; text-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+                .day-content h2 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 16px; text-shadow: 0 2px 15px rgba(0,0,0,0.4); }
+                .day-content h3 { font-size: 20px; font-weight: 600; color: #fff; margin-top: 32px; margin-bottom: 12px; }
+                .day-content h4 { font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, 0.95); margin-bottom: 8px; }
+                .subtitle { font-size: 22px; color: rgba(255, 255, 255, 0.8); margin-bottom: 32px; font-weight: 400; }
+                .day-content p { color: rgba(255, 255, 255, 0.8); line-height: 1.7; margin-bottom: 12px; }
+                .emphasis { font-weight: 600; color: #fff !important; font-size: 18px; }
+                .intro-box, .formula-box { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); padding: 28px; border-radius: 6px; margin: 28px 0; backdrop-filter: blur(5px); }
+                .formula-box { font-style: italic; border-left: 4px solid #fff; font-size: 17px; }
+                .day-content ul { list-style: none; margin: 24px 0; }
+                .day-content ul li { padding: 10px 0 10px 28px; position: relative; color: rgba(255, 255, 255, 0.9); font-size: 16px; }
+                .day-content ul li:before { content: '→'; position: absolute; left: 0; color: #fff; font-weight: 600; }
+                .task-block { margin: 24px 0; }
+                textarea, input[type="text"] { width: 100%; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.25); color: #fff; padding: 16px; font-family: 'Jost', sans-serif; font-size: 15px; line-height: 1.6; margin: 12px 0 20px; resize: vertical; min-height: 100px; border-radius: 4px; transition: all 0.3s; }
+                textarea::placeholder, input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.4); }
+                textarea:focus, input[type="text"]:focus { outline: none; border-color: rgba(255, 255, 255, 0.6); background: rgba(255, 255, 255, 0.15); transform: scale(1.01); }
+                input[type="text"] { min-height: auto; padding: 14px 16px; }
+                .price-input, .signature-input { font-size: 20px; font-weight: 500; }
+                .checkpoint { background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.2); padding: 24px; border-radius: 6px; margin-top: 40px; }
+                .checkpoint label { display: flex; align-items: center; padding: 14px 0; cursor: pointer; color: rgba(255, 255, 255, 0.85); transition: all 0.2s; font-size: 15px; }
+                .checkpoint label:hover { color: #fff; transform: translateX(4px); }
+                input[type="checkbox"] { width: 20px; height: 20px; margin-right: 14px; cursor: pointer; accent-color: #fff; }
+                .completion-box { text-align: center; padding: 60px 0; margin-top: 60px; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+                .cta-button { background: #fff; color: #000; font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; padding: 18px 44px; border: none; border-radius: 4px; cursor: pointer; margin-top: 32px; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+                .cta-button:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 32px rgba(0,0,0,0.6); }
+                @media (max-width: 768px) { .day-content { padding: 28px 20px; } .day-content h1 { font-size: 36px; } .day-content h2 { font-size: 28px; } }
+              `}</style>
+
+              <header className="header">
+                <div className="header-content">
+                  <div className="brand">RE:BELLE™ Media</div>
+                  <div className="header-actions">
+                    <button onClick={exportData} className="icon-button">Export</button>
+                    <button onClick={resetData} className="icon-button">Reset</button>
+                  </div>
+                </div>
+              </header>
+
+              <div className="progress-container">
+                <div className="progress-label">{progress}% abgeschlossen</div>
+                <div className="progress-bar">
+                  <div className="progress-fill" style={{ width: `${progress}%` }} />
+                </div>
+              </div>
+
+              <nav className="navigation">
+                <div className="nav-tabs">
+                  {days.map((day, index) => (
+                    <button key={index} className={`nav-tab ${currentDay === index ? 'active' : ''}`} onClick={() => setCurrentDay(index)}>{day.title}</button>
+                  ))}
+                </div>
+              </nav>
+
+              <main className="content">{days[currentDay].content}</main>
+            </div>
+          );
+        };
+
+        ReactDOM.render(<SupercoachApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>
