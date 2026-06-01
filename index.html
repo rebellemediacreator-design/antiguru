@@ -1,158 +1,302 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Die Anti-Guru Challenge</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#070605" />
+
+  <title>Die Anti-Guru Challenge | 9 Tage Business-Klarheit ohne Guru-Geblubber</title>
+  <meta name="description" content="Die Anti-Guru Challenge von RE:BELLE™ Media ist ein 9-Tage-Reset für Selbstständige, Creatorinnen und Gründerinnen, die ihr Angebot klarer positionieren und verkaufen wollen — ohne Guru-Geblubber." />
+  <link rel="canonical" href="https://idyllic-conkies-9a68a7.netlify.app/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:title" content="Die Anti-Guru Challenge" />
+  <meta property="og:description" content="Raus aus dem Guru-Nebel. 9 Tage für Positionierung, Angebot, Content, Mini-Funnel und Verkaufsgespräch — klar, direkt, RE:BELLE." />
+  <meta property="og:image" content="https://idyllic-conkies-9a68a7.netlify.app/images/day0.png" />
+  <meta property="og:image:alt" content="Dunkles Editorial-Motiv zur Anti-Guru Challenge von RE:BELLE Media" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Die Anti-Guru Challenge" />
+  <meta name="twitter:description" content="9 Tage Business-Klarheit ohne Guru-Geblubber." />
+  <meta name="twitter:image" content="https://idyllic-conkies-9a68a7.netlify.app/images/day0.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Die Anti-Guru Challenge",
+    "description": "Eine 9-Tage-Challenge für Selbstständige, Creatorinnen und Gründerinnen, die ihr Business klarer positionieren, ein verkaufbares Angebot formulieren und ohne Guru-Geblubber sichtbarer verkaufen wollen.",
+    "provider": {
+      "@type": "Organization",
+      "name": "RE:BELLE™ Media",
+      "url": "https://rebellemedia.de"
+    },
+    "inLanguage": "de",
+    "courseMode": "online",
+    "educationalLevel": "Beginner to Intermediate",
+    "teaches": ["Positionierung", "Angebotsentwicklung", "Content-Planung", "Mini-Funnel", "Sales-Gespräch"]
+  }
+  </script>
 </head>
 <body>
-    <div id="root"></div>
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-        const App = () => {
-          const [day, setDay] = useState(0);
-          const [data, setData] = useState({});
-          const [checks, setChecks] = useState({});
+  <main class="app" id="app" data-bg="0">
+    <header class="topbar">
+      <a class="brand" href="https://rebellemedia.de" aria-label="RE:BELLE Media öffnen">RE:BELLE™ Media</a>
+      <div class="top-actions" aria-label="Challenge Aktionen">
+        <button class="ghost-button" type="button" id="exportButton">Export</button>
+        <button class="ghost-button" type="button" id="resetButton">Reset</button>
+      </div>
+    </header>
 
-          useEffect(() => {
-            const d = localStorage.getItem('antiguru-data');
-            const c = localStorage.getItem('antiguru-checks');
-            if (d) setData(JSON.parse(d));
-            if (c) setChecks(JSON.parse(c));
-          }, []);
+    <section class="progress-wrap" aria-label="Fortschritt">
+      <div class="progress-meta">
+        <span>Challenge-Fortschritt</span>
+        <strong id="progressLabel">0%</strong>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </section>
 
-          useEffect(() => localStorage.setItem('antiguru-data', JSON.stringify(data)), [data]);
-          useEffect(() => localStorage.setItem('antiguru-checks', JSON.stringify(checks)), [checks]);
+    <nav class="day-nav" aria-label="Challenge Tage">
+      <button class="day-tab active" type="button" data-target="start">Start</button>
+      <button class="day-tab" type="button" data-target="tag-1">Tag 1</button>
+      <button class="day-tab" type="button" data-target="tag-2">Tag 2</button>
+      <button class="day-tab" type="button" data-target="tag-3">Tag 3</button>
+      <button class="day-tab" type="button" data-target="tag-4">Tag 4</button>
+      <button class="day-tab" type="button" data-target="tag-5">Tag 5</button>
+      <button class="day-tab" type="button" data-target="tag-6">Tag 6</button>
+      <button class="day-tab" type="button" data-target="tag-7">Tag 7</button>
+      <button class="day-tab" type="button" data-target="tag-8">Tag 8</button>
+      <button class="day-tab" type="button" data-target="tag-9">Tag 9</button>
+    </nav>
 
-          const update = (k, v) => setData(p => ({ ...p, [k]: v }));
-          const toggle = (k) => setChecks(p => ({ ...p, [k]: !p[k] }));
+    <div class="content-shell">
+      <section class="page active" id="start" data-bg="0">
+        <p class="eyebrow">9 Tage gegen digitales Business-Theater</p>
+        <h1>Die Anti-Guru Challenge</h1>
+        <p class="lead">Für Selbstständige, Creatorinnen und Gründerinnen, die keine weitere Erfolgsformel brauchen — sondern wieder ihren eigenen Business-Kopf.</p>
 
-          const exportData = () => {
-            const blob = new Blob([JSON.stringify({ data, checks }, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'antiguru.json';
-            a.click();
-          };
+        <div class="statement-box">
+          <h2>Was diese Challenge wirklich macht</h2>
+          <p>Sie nimmt dir nicht das Denken ab. Sie gibt es dir zurück. Du schärfst deine Positionierung, formulierst ein klares Einstiegsangebot, baust einen einfachen Content-Plan und bringst dein Angebot in eine verkaufbare Form.</p>
+        </div>
 
-          const reset = () => {
-            if (confirm('Alles löschen?')) {
-              setData({});
-              setChecks({});
-              localStorage.clear();
-            }
-          };
+        <div class="grid two-columns">
+          <article class="mini-card">
+            <h3>Für dich, wenn …</h3>
+            <ul>
+              <li>du von Online-Business-Ratschlägen überfüttert bist</li>
+              <li>du Angebote hast, aber keine klare Verkaufsdramaturgie</li>
+              <li>du sichtbar werden willst, ohne dich zu verbiegen</li>
+            </ul>
+          </article>
+          <article class="mini-card">
+            <h3>Nicht für dich, wenn …</h3>
+            <ul>
+              <li>du schnelle Geldversprechen suchst</li>
+              <li>du lieber kopierst als entscheidest</li>
+              <li>du möchtest, dass Marketing nach Plastik riecht</li>
+            </ul>
+          </article>
+        </div>
 
-          const progress = Math.round((Object.values(checks).filter(v => v).length / 18) * 100);
+        <div class="outcome-list" aria-label="Ergebnisse der Challenge">
+          <span>Positionierung</span>
+          <span>Angebot 250–750 €</span>
+          <span>7-Tage-Content-Plan</span>
+          <span>Mini-Funnel</span>
+          <span>Sales-Skript</span>
+          <span>Roadmap</span>
+        </div>
 
-          const bgs = ['./images/day0.png','./images/day1.png','./images/day2.png','./images/day3.png','./images/day4.png','./images/day5.png','./images/day6.png','./images/day7.png','./images/day8.png','./images/day0.png'];
+        <button class="primary-button" type="button" data-go="tag-1">Raus aus dem Guru-Nebel</button>
+        <p class="pointe">Kein nächster Kurs. Eine Entscheidung.</p>
+      </section>
 
-          const T = ({p,k,r=3}) => <textarea placeholder={p} value={data[k]||''} onChange={e=>update(k,e.target.value)} rows={r}/>;
-          const I = ({p,k}) => <input type="text" placeholder={p} value={data[k]||''} onChange={e=>update(k,e.target.value)}/>;
-          const C = ({k,t}) => <label className="check"><input type="checkbox" checked={checks[k]||false} onChange={()=>toggle(k)}/><span>{t}</span></label>;
+      <section class="page" id="tag-1" data-bg="1">
+        <p class="eyebrow">Tag 1</p>
+        <h2>Mindset entgiften</h2>
+        <p class="lead small">Nicht mehr: Was müsste ich sein, damit es funktioniert? Sondern: Was ist wahr genug, dass ich es verkaufen kann?</p>
 
-          const pages = [
-            {t:"Start",c:<><h1>Die Anti-Guru Challenge</h1><p className="sub">9 Tage. Kein Mindset-Bullshit. Nur Verkaufen.</p><div className="box"><h2>Was du bekommst:</h2><ul><li>Glasklare Positionierung</li><li>Verkaufbares Angebot (250-750€)</li><li>7-Tage-Content-Plan</li><li>Mini-Funnel</li><li>Sales-Skript</li><li>Skalierungs-Blueprint</li></ul><p className="em">Keine Ausreden mehr.</p></div><button onClick={()=>setDay(1)} className="cta">Challenge starten</button></>},
-            {t:"Tag 1",c:<><h2>Mindset-Shift</h2><div className="q"><h3>Glaubenssätze identifizieren</h3><T p="Was hält dich zurück?" k="g1"/></div><div className="q"><h3>Glaubenssätze kippen</h3><T p="Neue Überzeugungen..." k="g2"/></div><div className="q"><h3>Mikro-Manifest</h3><T p="Mein Manifest..." k="g3"/></div><div className="cp"><C k="c1a" t="Glaubenssätze identifiziert"/><C k="c1b" t="Neue Überzeugungen"/><C k="c1c" t="Manifest geschrieben"/></div></>},
-            {t:"Tag 2",c:<><h2>Deine Story</h2><div className="q"><h4>1. Wo warst du?</h4><T p="Tiefpunkt..." k="s1"/></div><div className="q"><h4>2. Wendepunkt</h4><T p="Was hat sich verändert?" k="s2"/></div><div className="q"><h4>3. Wo jetzt?</h4><T p="Transformation..." k="s3"/></div><div className="q"><h4>4. Gelernt</h4><T p="Lektion..." k="s4"/></div><div className="q"><h4>5. Wen hilfst du?</h4><T p="Zielgruppe..." k="s5"/></div><div className="cp"><C k="c2a" t="Story formuliert"/><C k="c2b" t="Zielgruppe beschrieben"/></div></>},
-            {t:"Tag 3",c:<><h2>30-Sekunden-Pitch</h2><div className="formula">Ich helfe [Zielgruppe], [Problem], damit sie [Ergebnis].</div><div className="q"><T p="Ich helfe..." k="p1"/></div><div className="q"><h4>Einzigartigkeit</h4><T p="Was macht dich anders?" k="p2"/></div><div className="q"><h4>Finale Version</h4><T p="Ich helfe..." k="p3"/></div><div className="cp"><C k="c3a" t="Pitch formuliert"/><C k="c3b" t="Einzigartigkeit definiert"/><C k="c3c" t="Laut vorgelesen (3x)"/></div></>},
-            {t:"Tag 4",c:<><h2>Einstiegsangebot</h2><div className="q"><h4>1. Problem</h4><T p="Welches Problem löst du?" k="a1"/></div><div className="q"><h4>2. Leistungen</h4><T p="Was bekommt der Kunde?" k="a2" r={4}/></div><div className="q"><h4>3. Ergebnis</h4><T p="Was wird messbar anders?" k="a3"/></div><div className="q"><h4>4. Preis</h4><I p="€ 497" k="a4"/></div><div className="cp"><C k="c4a" t="Problem definiert"/><C k="c4b" t="Leistungen aufgelistet"/><C k="c4c" t="Ergebnis & Preis"/></div></>},
-            {t:"Tag 5",c:<><h2>Content-Plan</h2>{[1,2,3,4,5,6,7].map(n=><div key={n} className="q"><h4>Tag {n}</h4><T p="Content-Idee..." k={`ct${n}`} r={2}/></div>)}<div className="cp"><C k="c5a" t="7 Ideen notiert"/><C k="c5b" t="Strategie klar"/></div></>},
-            {t:"Tag 6",c:<><h2>Mini-Funnel</h2><div className="q"><h4>1. Headline</h4><I p="Was bekommt der Kunde?" k="f1"/></div><div className="q"><h4>2. Problem</h4><T p="Problem..." k="f2"/></div><div className="q"><h4>3. Lösung</h4><T p="Lösung..." k="f3"/></div><div className="q"><h4>4. CTA</h4><I p="Buche jetzt..." k="f4"/></div><div className="cp"><C k="c6a" t="Landing definiert"/><C k="c6b" t="CTA formuliert"/></div></>},
-            {t:"Tag 7",c:<><h2>Erstgespräch</h2>{['Rapport','Problem','Vision','Angebot','Einwände'].map((ph,i)=><div key={i} className="q"><h4>Phase {i+1}: {ph}</h4><T p={ph+"..."} k={`sl${i}`} r={2}/></div>)}<div className="cp"><C k="c7a" t="Phasen verstanden"/><C k="c7b" t="Fragen notiert"/><C k="c7c" t="Einwände vorbereitet"/></div></>},
-            {t:"Tag 8",c:<><h2>Skalierung</h2><div className="q"><h4>Roadmap</h4><T p="Nächste Schritte..." k="sc1" r={6}/></div><div className="cp"><C k="c8a" t="Stufen verstanden"/><C k="c8b" t="Schritte definiert"/></div></>},
-            {t:"Tag 9",c:<><h2>Launch</h2><div className="cp">{["Positionierung","Angebot","Content","Landing","Sales","Roadmap","Post"].map((t,i)=><C key={i} k={`c9${String.fromCharCode(97+i)}`} t={t}/>)}</div><div className="q"><h4>Verpflichtung</h4><I p="Unterschrift..." k="sig"/></div><div className="done"><h2>Challenge abgeschlossen! 🖤</h2><p>Jetzt: Umsetzen. Verkaufen.</p></div></>}
-          ];
+        <div class="question-block">
+          <label for="g1">Welche Business-Glaubenssätze hast du von anderen übernommen?</label>
+          <textarea id="g1" data-key="g1" rows="4" placeholder="Ich muss erst mehr Reichweite haben. Ich brauche ein perfektes Angebot. Andere sind weiter als ich …"></textarea>
+        </div>
+        <div class="question-block">
+          <label for="g2">Welche dieser Sätze sind nicht wahr, sondern nur laut?</label>
+          <textarea id="g2" data-key="g2" rows="4" placeholder="Was klingt überzeugend, hält dich aber klein?"></textarea>
+        </div>
+        <div class="question-block">
+          <label for="g3">Schreibe dein Mikro-Manifest.</label>
+          <textarea id="g3" data-key="g3" rows="5" placeholder="Ich verkaufe nicht, weil ich perfekt bin. Ich verkaufe, weil mein Blick etwas löst …"></textarea>
+        </div>
 
-          return (
-            <div className="app" style={{backgroundImage:`url(${bgs[day]})`}}>
-              <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Jost:wght@300;400;500;600;700&display=swap');
-                *{margin:0;padding:0;box-sizing:border-box}
-                body{font-family:'Jost',sans-serif;overflow-x:hidden}
-                .app{min-height:100vh;background-size:cover;background-position:center;background-attachment:fixed;transition:background 0.8s ease}
-                .app::before{content:'';position:fixed;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.15),rgba(0,0,0,0.25));pointer-events:none;z-index:0}
-                .header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:rgba(0,0,0,0.6);border-bottom:1px solid rgba(255,255,255,0.15);padding:16px 0}
-                .hc{max-width:680px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
-                .brand{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:#fff;letter-spacing:1px}
-                .acts{display:flex;gap:10px}
-                .btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:6px 14px;font-size:12px;cursor:pointer;font-weight:500;border-radius:3px;transition:0.2s}
-                .btn:hover{background:rgba(255,255,255,0.25);transform:translateY(-1px)}
-                .prog{max-width:680px;margin:0 auto;padding:16px 20px;position:relative;z-index:1}
-                .plabel{font-size:12px;color:#fff;margin-bottom:6px;text-align:right;font-weight:600;text-shadow:0 2px 8px rgba(0,0,0,0.8)}
-                .pbar{height:4px;background:rgba(255,255,255,0.2);border-radius:2px;overflow:hidden}
-                .pfill{height:100%;background:#fff;transition:0.4s}
-                .nav{background:rgba(0,0,0,0.5);backdrop-filter:blur(15px);overflow-x:auto;position:sticky;top:60px;z-index:90;border-bottom:1px solid rgba(255,255,255,0.1)}
-                .ntabs{display:flex;max-width:680px;margin:0 auto;padding:0 20px}
-                .ntab{background:none;border:none;color:rgba(255,255,255,0.6);padding:14px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:0.2s}
-                .ntab:hover{color:rgba(255,255,255,0.9)}
-                .ntab.active{color:#fff;border-bottom-color:#fff;font-weight:600}
-                .content{max-width:680px;margin:0 auto;padding:40px 20px 80px;position:relative;z-index:1}
-                h1{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:700;color:#fff;margin-bottom:12px;text-shadow:0 4px 20px rgba(0,0,0,0.8)}
-                h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#fff;margin-bottom:20px;text-shadow:0 3px 15px rgba(0,0,0,0.7)}
-                h3{font-size:18px;font-weight:600;color:#fff;margin-bottom:10px;text-shadow:0 2px 10px rgba(0,0,0,0.6)}
-                h4{font-size:15px;font-weight:600;color:rgba(255,255,255,0.95);margin-bottom:8px;text-shadow:0 2px 8px rgba(0,0,0,0.5)}
-                p{color:rgba(255,255,255,0.9);line-height:1.6;margin-bottom:12px;text-shadow:0 2px 8px rgba(0,0,0,0.6)}
-                .sub{font-size:20px;color:rgba(255,255,255,0.85);margin-bottom:28px;font-weight:400}
-                .em{font-weight:600;color:#fff!important;font-size:18px}
-                .box,.formula{background:rgba(0,0,0,0.3);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);padding:24px;border-radius:6px;margin:24px 0}
-                .formula{font-style:italic;border-left:3px solid #fff;font-size:16px;color:rgba(255,255,255,0.95)}
-                ul{list-style:none;margin:20px 0}
-                li{padding:8px 0 8px 24px;position:relative;color:rgba(255,255,255,0.95);font-size:15px}
-                li:before{content:'→';position:absolute;left:0;color:#fff;font-weight:600}
-                .q{margin:20px 0}
-                textarea,input[type="text"]{width:100%;background:rgba(0,0,0,0.2);backdrop-filter:blur(5px);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:14px;font-family:'Jost',sans-serif;font-size:14px;line-height:1.6;margin:8px 0 16px;resize:vertical;min-height:90px;border-radius:4px;transition:0.3s}
-                textarea::placeholder,input::placeholder{color:rgba(255,255,255,0.5)}
-                textarea:focus,input:focus{outline:none;border-color:rgba(255,255,255,0.6);background:rgba(0,0,0,0.3);transform:scale(1.01)}
-                input[type="text"]{min-height:auto;padding:12px 14px}
-                .cp{background:rgba(0,0,0,0.25);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);padding:20px;border-radius:6px;margin-top:32px}
-                .check{display:flex;align-items:center;padding:12px 0;cursor:pointer;color:rgba(255,255,255,0.9);transition:0.2s;font-size:14px}
-                .check:hover{color:#fff;transform:translateX(3px)}
-                .check span{text-shadow:0 2px 8px rgba(0,0,0,0.6)}
-                input[type="checkbox"]{width:18px;height:18px;margin-right:12px;cursor:pointer;accent-color:#fff}
-                .done{text-align:center;padding:50px 0;margin-top:50px;border-top:1px solid rgba(255,255,255,0.2)}
-                .cta{background:#fff;color:#000;font-family:'Jost',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:16px 40px;border:none;border-radius:4px;cursor:pointer;margin-top:28px;transition:0.3s;box-shadow:0 8px 20px rgba(0,0,0,0.5)}
-                .cta:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 10px 28px rgba(0,0,0,0.7)}
-                @media(max-width:768px){
-                  h1{font-size:32px}
-                  h2{font-size:26px}
-                  .content{padding:30px 16px 60px}
-                  .hc,.ntabs,.prog{padding:0 16px}
-                }
-              `}</style>
+        <div class="check-panel">
+          <label><input type="checkbox" data-check="c1a" /> Fremde Glaubenssätze erkannt</label>
+          <label><input type="checkbox" data-check="c1b" /> Eigene Wahrheit formuliert</label>
+          <label><input type="checkbox" data-check="c1c" /> Mikro-Manifest geschrieben</label>
+        </div>
+      </section>
 
-              <div className="header">
-                <div className="hc">
-                  <div className="brand">RE:BELLE™</div>
-                  <div className="acts">
-                    <button onClick={exportData} className="btn">Export</button>
-                    <button onClick={reset} className="btn">Reset</button>
-                  </div>
-                </div>
-              </div>
+      <section class="page" id="tag-2" data-bg="2">
+        <p class="eyebrow">Tag 2</p>
+        <h2>Deine Story ohne Heldenpose</h2>
+        <p class="lead small">Menschen kaufen keine makellose Biografie. Sie kaufen Orientierung. Deine Geschichte muss nicht größer werden. Nur klarer.</p>
 
-              <div className="prog">
-                <div className="plabel">{progress}%</div>
-                <div className="pbar"><div className="pfill" style={{width:`${progress}%`}}/></div>
-              </div>
+        <div class="question-block"><label for="s1">Wo standest du, bevor du deinen heutigen Blick entwickelt hast?</label><textarea id="s1" data-key="s1" rows="3" placeholder="Der Punkt, an dem du gemerkt hast: So geht es nicht weiter."></textarea></div>
+        <div class="question-block"><label for="s2">Was war der Wendepunkt?</label><textarea id="s2" data-key="s2" rows="3" placeholder="Die Entscheidung, der Bruch, die Erkenntnis."></textarea></div>
+        <div class="question-block"><label for="s3">Was siehst du heute anders als früher?</label><textarea id="s3" data-key="s3" rows="3" placeholder="Deine neue Perspektive."></textarea></div>
+        <div class="question-block"><label for="s4">Welche Lektion ist daraus entstanden?</label><textarea id="s4" data-key="s4" rows="3" placeholder="Der Satz, der hängen bleibt."></textarea></div>
+        <div class="question-block"><label for="s5">Wem hilft genau diese Geschichte?</label><textarea id="s5" data-key="s5" rows="3" placeholder="Die Person, die sich darin erkennt."></textarea></div>
 
-              <div className="nav">
-                <div className="ntabs">
-                  {pages.map((p,i)=><button key={i} className={`ntab ${day===i?'active':''}`} onClick={()=>setDay(i)}>{p.t}</button>)}
-                </div>
-              </div>
+        <div class="check-panel">
+          <label><input type="checkbox" data-check="c2a" /> Story roh formuliert</label>
+          <label><input type="checkbox" data-check="c2b" /> Zielperson sichtbar gemacht</label>
+        </div>
+      </section>
 
-              <div className="content">{pages[day].c}</div>
-            </div>
-          );
-        };
+      <section class="page" id="tag-3" data-bg="3">
+        <p class="eyebrow">Tag 3</p>
+        <h2>Der 30-Sekunden-Pitch</h2>
+        <p class="formula">Ich helfe [wem], [welches Problem zu lösen], damit [welches Ergebnis möglich wird] — ohne [das, was deine Zielgruppe satt hat].</p>
 
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
+        <div class="question-block"><label for="p1">Erste Version</label><textarea id="p1" data-key="p1" rows="3" placeholder="Ich helfe …"></textarea></div>
+        <div class="question-block"><label for="p2">Was macht deinen Blick anders?</label><textarea id="p2" data-key="p2" rows="4" placeholder="Nicht Methode. Nicht Zertifikat. Der Unterschied in deiner Wahrnehmung."></textarea></div>
+        <div class="question-block"><label for="p3">Finale Version</label><textarea id="p3" data-key="p3" rows="4" placeholder="Klar. Kurz. Verkaufbar."></textarea></div>
+
+        <div class="check-panel">
+          <label><input type="checkbox" data-check="c3a" /> Pitch formuliert</label>
+          <label><input type="checkbox" data-check="c3b" /> Unterschied geschärft</label>
+          <label><input type="checkbox" data-check="c3c" /> Laut gelesen und gekürzt</label>
+        </div>
+      </section>
+
+      <section class="page" id="tag-4" data-bg="4">
+        <p class="eyebrow">Tag 4</p>
+        <h2>Dein Einstiegsangebot</h2>
+        <p class="lead small">Ein Angebot ist kein Leistungsfriedhof. Es ist eine klare Tür mit einem konkreten Danach.</p>
+
+        <div class="question-block"><label for="a1">Welches konkrete Problem löst du?</label><textarea id="a1" data-key="a1" rows="3" placeholder="Nicht alles. Ein Problem."></textarea></div>
+        <div class="question-block"><label for="a2">Was bekommt die Kundin wirklich?</label><textarea id="a2" data-key="a2" rows="5" placeholder="Module, Gespräch, Analyse, PDF, Umsetzung, Ergebnis."></textarea></div>
+        <div class="question-block"><label for="a3">Was ist nach der Zusammenarbeit messbar oder spürbar anders?</label><textarea id="a3" data-key="a3" rows="4" placeholder="Klarheit, Entscheidung, Text, Seite, Plan, Sichtbarkeit."></textarea></div>
+        <div class="question-block"><label for="a4">Preisrahmen</label><input id="a4" data-key="a4" type="text" placeholder="z. B. 497 €" /></div>
+
+        <div class="check-panel">
+          <label><input type="checkbox" data-check="c4a" /> Problem definiert</label>
+          <label><input type="checkbox" data-check="c4b" /> Leistungspaket sortiert</label>
+          <label><input type="checkbox" data-check="c4c" /> Ergebnis und Preis gesetzt</label>
+        </div>
+      </section>
+
+      <section class="page" id="tag-5" data-bg="5">
+        <p class="eyebrow">Tag 5</p>
+        <h2>7 Tage Content, der nicht bettelt</h2>
+        <p class="lead small">Content muss nicht täglich lauter werden. Er muss eine Entscheidung vorbereiten.</p>
+
+        <div class="content-days">
+          <div class="question-block"><label for="ct1">Tag 1 — Problem sichtbar machen</label><textarea id="ct1" data-key="ct1" rows="2" placeholder="Hook + Kernidee"></textarea></div>
+          <div class="question-block"><label for="ct2">Tag 2 — falsche Annahme brechen</label><textarea id="ct2" data-key="ct2" rows="2" placeholder="Was glaubt deine Zielgruppe falsch?"></textarea></div>
+          <div class="question-block"><label for="ct3">Tag 3 — eigene Perspektive zeigen</label><textarea id="ct3" data-key="ct3" rows="2" placeholder="Deine Haltung"></textarea></div>
+          <div class="question-block"><label for="ct4">Tag 4 — Mini-Beweis liefern</label><textarea id="ct4" data-key="ct4" rows="2" placeholder="Beispiel, Vorher/Nachher, Beobachtung"></textarea></div>
+          <div class="question-block"><label for="ct5">Tag 5 — Angebot indirekt vorbereiten</label><textarea id="ct5" data-key="ct5" rows="2" placeholder="Was braucht die Person jetzt?"></textarea></div>
+          <div class="question-block"><label for="ct6">Tag 6 — Einwand beantworten</label><textarea id="ct6" data-key="ct6" rows="2" placeholder="Warum sie noch zögert"></textarea></div>
+          <div class="question-block"><label for="ct7">Tag 7 — klare Einladung</label><textarea id="ct7" data-key="ct7" rows="2" placeholder="CTA ohne Bettelton"></textarea></div>
+        </div>
+
+        <div class="check-panel">
+          <label><input type="checkbox" data-check="c5a" /> 7 Content-Ideen notiert</label>
+          <label><input type="checkbox" data-check="c5b" /> Verkaufsdramaturgie erkennbar</label>
+        </div>
+      </section>
+
+      <section class="page" id="tag-6" data-bg="6">
+        <p class="eyebrow">Tag 6</p>
+        <h2>Mini-Funnel ohne Maschinenlärm</h2>
+        <p class="lead small">Eine gute Landingpage sagt nicht alles. Sie sagt das Richtige in der richtigen Reihenfolge.</p>
+
+        <div class="question-block"><label for="f1">Headline</label><input id="f1" data-key="f1" type="text" placeholder="Was bekommt die richtige Person hier?" /></div>
+        <div class="question-block"><label for="f2">Problem</label><textarea id="f2" data-key="f2" rows="3" placeholder="Welche Spannung holt sie ab?"></textarea></div>
+        <div class="question-block"><label for="f3">Lösung</label><textarea id="f3" data-key="f3" rows="4" placeholder="Was wird klar, leichter oder möglich?"></textarea></div>
+        <div class="question-block"><label for="f4">CTA</label><input id="f4" data-key="f4" type="text" placeholder="z. B. Angebot ansehen / Termin anfragen / Challenge starten" /></div>
+
+        <div class="check-panel">
+          <label><input type="checkbox" data-check="c6a" /> Landing-Struktur definiert</label>
+          <label><input type="checkbox" data-check="c6b" /> CTA formuliert</label>
+        </div>
+      </section>
+
+      <section class="page" id="tag-7" data-bg="7">
+        <p class="eyebrow">Tag 7</p>
+        <h2>Das Erstgespräch</h2>
+        <p class="lead small">Ein Sales-Gespräch ist kein Überreden. Es ist ein Raum, in dem eine Entscheidung sauber wird.</p>
+
+        <div class="question-block"><label for="sl0">Phase 1 — Rapport</label><textarea id="sl0" data-key="sl0" rows="2" placeholder="Wie öffnest du das Gespräch ruhig und klar?"></textarea></div>
+        <div class="question-block"><label for="sl1">Phase 2 — Problem</label><textarea id="sl1" data-key="sl1" rows="2" placeholder="Welche Fragen zeigen die echte Spannung?"></textarea></div>
+        <div class="question-block"><label for="sl2">Phase 3 — Vision</label><textarea id="sl2" data-key="sl2" rows="2" placeholder="Was soll nach der Zusammenarbeit anders sein?"></textarea></div>
+        <div class="question-block"><label for="sl3">Phase 4 — Angebot</label><textarea id="sl3" data-key="sl3" rows="2" placeholder="Wie erklärst du dein Angebot kurz und sicher?"></textarea></div>
+        <div class="question-block"><label for="sl4">Phase 5 — Einwände</label><textarea id="sl4" data-key="sl4" rows="2" placeholder="Preis, Zeit, Unsicherheit, Vertrauen."></textarea></div>
+
+        <div class="check-panel">
+          <label><input type="checkbox" data-check="c7a" /> Gesprächsphasen verstanden</label>
+          <label><input type="checkbox" data-check="c7b" /> Fragen notiert</label>
+          <label><input type="checkbox" data-check="c7c" /> Einwände vorbereitet</label>
+        </div>
+      </section>
+
+      <section class="page" id="tag-8" data-bg="8">
+        <p class="eyebrow">Tag 8</p>
+        <h2>Roadmap statt Größenwahn</h2>
+        <p class="lead small">Skalierung beginnt nicht mit mehr. Sie beginnt mit weniger Chaos.</p>
+
+        <div class="question-block">
+          <label for="sc1">Deine nächsten 30 Tage</label>
+          <textarea id="sc1" data-key="sc1" rows="8" placeholder="Woche 1: Angebot finalisieren. Woche 2: Landingpage bauen. Woche 3: Content veröffentlichen. Woche 4: Gespräche führen …"></textarea>
+        </div>
+
+        <div class="check-panel">
+          <label><input type="checkbox" data-check="c8a" /> nächste Stufe erkannt</label>
+          <label><input type="checkbox" data-check="c8b" /> 30-Tage-Schritte definiert</label>
+        </div>
+      </section>
+
+      <section class="page" id="tag-9" data-bg="0">
+        <p class="eyebrow">Tag 9</p>
+        <h2>Launch-Check</h2>
+        <p class="lead small">Jetzt wird nicht weiter optimiert, bis alles tot ist. Jetzt wird veröffentlicht.</p>
+
+        <div class="check-panel launch-checks">
+          <label><input type="checkbox" data-check="c9a" /> Positionierung klar</label>
+          <label><input type="checkbox" data-check="c9b" /> Angebot formuliert</label>
+          <label><input type="checkbox" data-check="c9c" /> Content-Plan bereit</label>
+          <label><input type="checkbox" data-check="c9d" /> Landingpage-Struktur steht</label>
+          <label><input type="checkbox" data-check="c9e" /> Sales-Gespräch vorbereitet</label>
+          <label><input type="checkbox" data-check="c9f" /> 30-Tage-Roadmap gesetzt</label>
+          <label><input type="checkbox" data-check="c9g" /> erster Post geplant</label>
+        </div>
+
+        <div class="question-block"><label for="sig">Verpflichtung</label><input id="sig" data-key="sig" type="text" placeholder="Name, Datum, Entscheidung" /></div>
+
+        <div class="final-box">
+          <h2>Challenge abgeschlossen.</h2>
+          <p>Du hast keinen Guru besiegt. Du hast aufgehört, einem zu folgen.</p>
+          <a class="primary-button link-button" href="https://rebellemedia.de" target="_blank" rel="noopener">RE:BELLE™ Media öffnen</a>
+        </div>
+      </section>
+    </div>
+
+    <footer class="footer">
+      <p><strong>RE:BELLE™ Media</strong> — Creative Studio for Storytelling & Brand Experience.</p>
+      <p>The Art of Feeling. Amplified.</p>
+      <p><a href="https://rebellemedia.de">rebellemedia.de</a> · <a href="https://quiet.rebellemedia.de">quiet.rebellemedia.de</a> · <a href="mailto:rebelle.media.creator@gmail.com">rebelle.media.creator@gmail.com</a></p>
+    </footer>
+  </main>
+
+  <script src="app.js" defer></script>
 </body>
 </html>
